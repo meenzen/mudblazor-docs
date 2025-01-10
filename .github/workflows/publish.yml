@@ -42,8 +42,9 @@ jobs:
         run: dotnet restore --runtime linux-x64
       - name: Build
         working-directory: ${{ env.PROJECT }}
-        run: dotnet publish --no-restore --os linux --arch x64 -c Release |
-          /t:PublishContainer |
-          -p:ContainerImageTag=6 |
-          -p:ContainerRepository=${{ env.IMAGE_NAME }} |
-          -p:ContainerRegistry=${{ env.REGISTRY }}
+        run: |
+          dotnet publish --no-restore --os linux --arch x64 -c Release \
+            /t:PublishContainer \
+            -p:ContainerImageTag=6 \
+            -p:ContainerRepository=${{ env.IMAGE_NAME }} \
+            -p:ContainerRegistry=${{ env.REGISTRY }}
