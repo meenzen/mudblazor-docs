@@ -1,0 +1,49 @@
+name: Publish
+
+on:
+  push:
+    branches: ["main"]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: meenzen/mudblazor-docs
+  PROJECT: MudBlazor/src/MudBlazor.Docs.WasmHost
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@7ca345011ac4304463197fac0e56eab1bc7e6af0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      # Build v6 docs image
+      - name: Patch MudBlazor so it compiles
+        working-directory: MudBlazor
+        run: git apply ../v6.patch
+      - name: Restore dependencies
+        working-directory: ${{ env.PROJECT }}
+        run: dotnet restore --runtime linux-x64
+      - name: Build
+        working-directory: ${{ env.PROJECT }}
+        run: dotnet publish --no-restore --os linux --arch x64 -c Release |
+          /t:PublishContainer |
+          -p:ContainerImageTag=6 |
+          -p:ContainerRepository=${{ env.IMAGE_NAME }} |
+          -p:ContainerRegistry=${{ env.REGISTRY }}

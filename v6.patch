@@ -1,0 +1,39 @@
+diff --git a/src/Directory.Build.props b/src/Directory.Build.props
+index 9417fe64b..712447fdc 100644
+--- a/src/Directory.Build.props
++++ b/src/Directory.Build.props
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Project>
+   <PropertyGroup>
+-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
++    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+   </PropertyGroup>
+ </Project>
+\ No newline at end of file
+diff --git a/src/MudBlazor.SourceCodeGenerator/MudBlazor.SourceCodeGenerator.csproj b/src/MudBlazor.SourceCodeGenerator/MudBlazor.SourceCodeGenerator.csproj
+index 070b8e289..37ab93999 100644
+--- a/src/MudBlazor.SourceCodeGenerator/MudBlazor.SourceCodeGenerator.csproj
++++ b/src/MudBlazor.SourceCodeGenerator/MudBlazor.SourceCodeGenerator.csproj
+@@ -6,7 +6,7 @@
+     <ImplicitUsings>enable</ImplicitUsings>
+     <Nullable>enable</Nullable>
+     <IncludeBuildOutput>false</IncludeBuildOutput>
+-    <WarningsAsErrors>true</WarningsAsErrors>
++    <WarningsAsErrors>false</WarningsAsErrors>
+     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+   </PropertyGroup>
+   
+diff --git a/src/MudBlazor/Components/TreeView/MudTreeView.razor.cs b/src/MudBlazor/Components/TreeView/MudTreeView.razor.cs
+index 956b287c2..80d28c855 100644
+--- a/src/MudBlazor/Components/TreeView/MudTreeView.razor.cs
++++ b/src/MudBlazor/Components/TreeView/MudTreeView.razor.cs
+@@ -146,7 +146,7 @@ namespace MudBlazor
+         public HashSet<T> Items { get; set; } = new();
+ 
+         [ExcludeFromCodeCoverage]
+-        [Obsolete("Use SelectedValueChanged instead.", true)]
++        [Obsolete("Use SelectedValueChanged instead.", false)]
+         [Parameter]
+         public EventCallback<T?> ActivatedValueChanged
+         {
