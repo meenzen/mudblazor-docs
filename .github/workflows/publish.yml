@@ -23,7 +23,7 @@ jobs:
           submodules: recursive
 
       - name: Log in to the Container registry
-        uses: docker/login-action@cad89843109a11cb6f69f52fe695c42cf69d57d3
+        uses: docker/login-action@ba754150c9dbbaa912ae0ac3cfba43f84195cef2
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
